@@ -29,7 +29,14 @@ body {
 }
 
 .square {
-    width: 30px;
-    height: 30px;
-    border: 1px solid red;
+    width: 22px;
+    height: 22px;
+    
+}
+.hidden {
+    display: none;
+}
+
+.tetro {
+    border:  4px outset white;
 }
