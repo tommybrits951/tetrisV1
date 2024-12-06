@@ -1,0 +1,35 @@
+
+body {
+    box-sizing: content-box;
+    margin: 0;
+    padding: 0;
+}
+
+#game {
+    position: absolute;
+    left: 25vw;
+    background-color: black;
+    height: 100vh;
+    width: 50vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+#gameboard {
+    position: absolute;
+    grid-column: 1;
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(20, 30px);
+    height: 600px;
+    width: 300px;
+    top: 10vh;
+    left: 5vw;    
+    border: 2px solid white;
+}
+
+.square {
+    width: 30px;
+    height: 30px;
+    border: 1px solid red;
+}
