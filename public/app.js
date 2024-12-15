@@ -4,7 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const gameboard = document.querySelector("#gameboard")
   const startBtn = document.querySelector("#startBtn")
-  
+  let level = 1
+  let score = 0
   let timerID
   let curPos = 4
   let rotation = 0
@@ -26,13 +27,13 @@ const squaresArray = Array.from(document.querySelectorAll(".square"))
 
 
 const llTetromino = [
-  [1, width+1, width*2+1, width*2],
+  [1, width+1, width*2, width*2+1],
   [width, width*2, width*2+1, width*2+2],
   [1, 2, width+1, width*2+1],
   [width, width+1, width+2, width*2+2]
 ]
 const lrTetromino = [
-  [1, width+1, width*2+1, 2],
+  [1, width+1, width*2+1,width*2+2],
   [width, width+1, width+2, width*2],
   [0, 1, width+1, width*2+1],
   [width+2, width*2, width*2+1, width*2+2]
@@ -75,13 +76,7 @@ const iTetromino = [
 const tetros = [iTetromino, oTetromino, zlTetromino, zrTetromino, llTetromino, lrTetromino, tTetromino]
 const colorsArray = ["purple", "yellow", "grey", "green", "blue", "red", "orange", "brown"]
 
-
- 
-
-
-
-/* let rando = Math.floor(Math.random() * tetros.length) */
-let rando = 5
+let rando = Math.floor(Math.random() * tetros.length) 
 let nextRando
 let currentTetro = tetros[rando][rotation]
 let currentColor = colorsArray[rando]
@@ -98,16 +93,8 @@ function undraw() {
     squaresArray[curPos + index].style.background = "black"
   })
 }
-function handleFreeze() {
-  
-  rando = nextRando
-  console.log(index)
-  nextRando = Math.floor(Math.random() * tetros.length)
-  currentTetro = tetros[nextRando][rotation]
-  rotation = 0
-  curPos = 4
-  draw()
-}
+
+
 
 
 function freeze() {
@@ -117,27 +104,46 @@ function freeze() {
       clearInterval(timerID)
       timerID = null
       rando = nextRando
-      nextRando = Math.floor(Math.random() * tetros.length)
+      for (let i = 0; i < 1; i++) {
+        nextRando = Math.floor(Math.random() * tetros.length)
+        if (nextRando === rando) {
+          i--
+        }
+      }
       currentTetro = tetros[rando][rotation]
       currentColor = colorsArray[rando]
       rotation = 0
       curPos = 4
       draw()
       timerID = setInterval(moveDown, 400)
-      nextRando = Math.floor(Math.random() * tetros.length)
+      for (let i = 0; i < 1; i++) {
+        nextRando = Math.floor(Math.random() * tetros.length)
+        if (nextRando === rando) {
+          i--
+        }
+      }
     }
   }
 }
 function moveLeft() {
   undraw()
-  curPos -= 1
+  const isAtLeftEdge = currentTetro.some(idx => (curPos + idx) % width === 0)
+  if (!isAtLeftEdge) curPos--
+  if (currentTetro.some(idx => squaresArray[curPos + idx].classList.contains("taken"))) {
+    curPos++
+  }
   draw()
 }
 function moveRight() {
   undraw()
-  curPos += 1
+  const isAtRightEdge =  currentTetro.some(idx => (curPos + idx) % width === width - 1)
+  if (!isAtRightEdge) curPos++
+  if (currentTetro.some(idx => squaresArray[curPos + idx].classList.contains("taken"))) {
+    curPos--
+  }     
   draw()
 }
+
 function moveDown() {
   undraw()
   curPos += width;
@@ -155,12 +161,18 @@ function rotateTetro() {
   draw()
 }
 
+
+
 function isRight() {
   return currentTetro.some(index => (curPos + index + 1) % width === 0)
 }
+
+
 function isLeft() {
   return currentTetro.some(index => (curPos + index) % width === 0)
 }
+
+
 
 startBtn.addEventListener("click", () => {
   if (timerID) {
@@ -169,11 +181,16 @@ startBtn.addEventListener("click", () => {
   } else {
     draw()
     timerID = setInterval(moveDown, 400)
-    nextRando = Math.floor(Math.random() * tetros.length)
+    for (let i = 0; i < 1; i++) {
+      nextRando = Math.floor(Math.random() * tetros.length)
+      if (nextRando === rando) {
+        i--
+      }
+    }
   }
 })
 
-window.addEventListener("keyup", (e) => {
+window.addEventListener("keydown", (e) => {
   if (e.keyCode === 37) {
     moveLeft()
   } else if (e.keyCode === 39) {
@@ -185,3 +202,12 @@ window.addEventListener("keyup", (e) => {
   }
 })
 })
+
+function calcScore() {
+  for (let i = 0; i < 199; i++) {
+    const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]  
+    if (row.every(index => ))
+  
+  }
+
+}
